@@ -29,3 +29,9 @@ dtcontroller.run('example@example.com', '123456')
 ```
 
 See examples for more detailed usage.
+
+## TODO / Known Issues
+
+- Exceptions are not yet handled. Will have to restart the client when they happen.
+- Private channels are not yet handled.
+- And more!
