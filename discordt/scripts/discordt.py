@@ -34,6 +34,8 @@ def main():
     # set to false if bot will be sending messages
     dtcontroller.local_message_display = True
 
+    # unfortunately, only on_message and
+    # on_ready have been implemented in dtclient
     @dtcontroller.dtclient.event
     def on_message(message):
         pass
@@ -41,3 +43,7 @@ def main():
     @dtcontroller.dtclient.event
     def on_ready(message):
         pass
+
+    # dtcontroller.run() -- just starts interface, must use /login
+    # dtcontroller.run(email, password) -- logs in directly (bot use)
+    dtcontroller.run()

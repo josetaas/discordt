@@ -46,6 +46,10 @@ class DTController(object):
 
         self._unread_channels = {}
 
+    def run(self, email='', password=''):
+        if email != '' and password != '':
+            self._login_command(['', email, password])
+
         while True:
             self.dtinterface.update()
             time.sleep(0.01)
