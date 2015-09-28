@@ -5,12 +5,12 @@ Since Discord has yet to release an official API, anything could break at any po
 
 ## Installation
 
-Simply clone the repository, then run `pip install -e .` in the repository's directory.  
+Clone the repository, then run `pip install -e .` in the repository's directory.  
 
 ## Usage
 
-Running `discordt` will bring up the command-line client.  
-However, if you want to import discordt in your own code:
+Simply running `discordt` will bring up the command-line client.  
+However, if you want to import discordt into your own code:
 
 ```python
 import discordt
