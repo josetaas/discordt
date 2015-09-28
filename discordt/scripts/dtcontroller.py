@@ -67,7 +67,7 @@ class DTController(object):
         """Discord.Client on_ready event"""
         self.dtclient.connected = True
         self.dtinterface.clear()
-        self.dtinterface.print('Connected! Type /help for a list of commands.')
+        self.dtinterface.print_output('Connected! Type /help for a list of commands.')
         self.process_message('/channels')
 
     def on_return_key(self, message):
@@ -113,18 +113,18 @@ class DTController(object):
         #msg = datetime.now().strftime('%H:%M:%S')
         #msg = message.timestamp.strftime('%H:%M:%S')
         msg = self._convert_tz(message.timestamp).strftime('%H:%M:%S')
-        self.dtinterface.print(msg, False)
-        self.dtinterface.print('  [', False)
+        self.dtinterface.print_output(msg, False)
+        self.dtinterface.print_output('  [', False)
         msg = message.channel.server.name
-        self.dtinterface.print(msg, False, 2)
-        self.dtinterface.print('] <', False)
+        self.dtinterface.print_output(msg, False, 2)
+        self.dtinterface.print_output('] <', False)
         msg = message.channel.name
-        self.dtinterface.print(msg, False, 4)
-        self.dtinterface.print('>  ', False)
+        self.dtinterface.print_output(msg, False, 4)
+        self.dtinterface.print_output('>  ', False)
         msg = message.author.name
-        self.dtinterface.print(msg, False, self._color_hash(msg))
+        self.dtinterface.print_output(msg, False, self._color_hash(msg))
         msg = ' : ' + message.content
-        self.dtinterface.print(msg)
+        self.dtinterface.print_output(msg)
 
     def _color_hash(self, key):
         i = 0
@@ -151,8 +151,8 @@ class DTController(object):
             self.dtinterface.clear()
         ## commands that require login
         elif self.dtclient.connected == False:
-            self.dtinterface.print('Login required!')
-            self.dtinterface.print('/login email password')
+            self.dtinterface.print_output('Login required!')
+            self.dtinterface.print_output('/login email password')
         elif '/channels' in command:
             self._channels_command()
         elif '/connect' in command:
@@ -160,34 +160,34 @@ class DTController(object):
         elif '/who' in command:
             self._who_command()
         else:
-            self.dtinterface.print('Unknown command!')
+            self.dtinterface.print_output('Unknown command!')
 
     def _help_command(self):
-        self.dtinterface.print('\n\t /login email password', colorpair = 7)
-        self.dtinterface.print('\t   login command')
-        self.dtinterface.print('\t /channels', colorpair = 7)
-        self.dtinterface.print('\t   lists channels')
-        self.dtinterface.print('\t /connect channel_index', colorpair = 7)
-        self.dtinterface.print('\t   connects to specified channel_index as displayed in /channels')
-        self.dtinterface.print('\t /who', colorpair = 7)
-        self.dtinterface.print('\t   lists online users in current channel')
-        self.dtinterface.print('\t /clear', colorpair = 7)
-        self.dtinterface.print('\t   clears output box')
-        self.dtinterface.print('\t /exit', colorpair = 7)
-        self.dtinterface.print('\t   closes discord terminal client')
-        self.dtinterface.print('')
+        self.dtinterface.print_output('\n\t /login email password', colorpair = 7)
+        self.dtinterface.print_output('\t   login command')
+        self.dtinterface.print_output('\t /channels', colorpair = 7)
+        self.dtinterface.print_output('\t   lists channels')
+        self.dtinterface.print_output('\t /connect channel_index', colorpair = 7)
+        self.dtinterface.print_output('\t   connects to specified channel_index as displayed in /channels')
+        self.dtinterface.print_output('\t /who', colorpair = 7)
+        self.dtinterface.print_output('\t   lists online users in current channel')
+        self.dtinterface.print_output('\t /clear', colorpair = 7)
+        self.dtinterface.print_output('\t   clears output box')
+        self.dtinterface.print_output('\t /exit', colorpair = 7)
+        self.dtinterface.print_output('\t   closes discord terminal client')
+        self.dtinterface.print_output('')
 
     def _login_command(self, args):
         if len(args) < 3:
-            self.dtinterface.print('Incorrect syntax!')
-            self.dtinterface.print('/login email password')
+            self.dtinterface.print_output('Incorrect syntax!')
+            self.dtinterface.print_output('/login email password')
             return
 
         if self.dtclient.connected:
-            self.dtinterface.print('You are already logged in.')
+            self.dtinterface.print_output('You are already logged in.')
             return
 
-        self.dtinterface.print('Connecting to Discord...')
+        self.dtinterface.print_output('Connecting to Discord...')
         self.dtclient.run(args[1], args[2])
 
     def _channels_command(self):
@@ -199,34 +199,34 @@ class DTController(object):
         for channel in channels:
             if channel.server.name != server:
                 server = channel.server.name
-                self.dtinterface.print('\n    ' + server + '\n', True, colorpair=self._color_hash(server))
+                self.dtinterface.print_output('\n    ' + server + '\n', True, colorpair=self._color_hash(server))
 
             # change color if channel has unread messages
             colorpair = 3
             if channel.id not in self._unread_channels or not self._unread_channels[channel.id]:
                 colorpair = 4
 
-            self.dtinterface.print('        '+ str(x).rjust(3) + ') ', False)
-            self.dtinterface.print(channel.name, True, colorpair)
+            self.dtinterface.print_output('        '+ str(x).rjust(3) + ') ', False)
+            self.dtinterface.print_output(channel.name, True, colorpair)
             x = x + 1
-        self.dtinterface.print('')
+        self.dtinterface.print_output('')
 
     def _connect_command(self, args):
         if len(args) < 2:
-            self.dtinterface.print('Incorrect syntax!')
-            self.dtinterface.print('/connect index')
+            self.dtinterface.print_output('Incorrect syntax!')
+            self.dtinterface.print_output('/connect index')
             return
 
         try:
             self.dtclient.switch_channel(int(args[1]))
             channel = self.dtclient.textchannels[int(args[1])-1]
         except:
-            self.dtinterface.print('Failed to connect to ' + args[1] + '.')
+            self.dtinterface.print_output('Failed to connect to ' + args[1] + '.')
             return
 
-        self.dtinterface.print('Switched to ', False)
-        self.dtinterface.print(channel.name, False, 4)
-        self.dtinterface.print('.')
+        self.dtinterface.print_output('Switched to ', False)
+        self.dtinterface.print_output(channel.name, False, 4)
+        self.dtinterface.print_output('.')
 
         # clear output then display stored channel messages
         self.dtinterface.clear()
@@ -252,17 +252,17 @@ class DTController(object):
         try:
             users = self.dtclient.get_users()
         except:
-            self.dtinterface.print('Not connected to a channel.')
-        self.dtinterface.print('')
+            self.dtinterface.print_output('Not connected to a channel.')
+        self.dtinterface.print_output('')
         x = 0
         for user in users:
             if user.status != 'offline':
                 if user.status == 'online':
-                    self.dtinterface.print(user.name.ljust(16), False, 7)
+                    self.dtinterface.print_output(user.name.ljust(16), False, 7)
                 elif user.status == 'idle':
-                    self.dtinterface.print(user.name.ljust(16), False, 5)
-                self.dtinterface.print('\t', False)
+                    self.dtinterface.print_output(user.name.ljust(16), False, 5)
+                self.dtinterface.print_output('\t', False)
                 x = x + 1
                 if x%4 == 0:
-                    self.dtinterface.print('')
-        self.dtinterface.print('\n')
+                    self.dtinterface.print_output('')
+        self.dtinterface.print_output('\n')

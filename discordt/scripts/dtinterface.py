@@ -32,8 +32,8 @@ class DTInterface(object):
     def __init__(self, on_return_key):
         self.on_return_key = on_return_key
         self._init_curses()
-        self.print('DISCORD TERMINAL CLIENT', colorpair = 4)
-        self.print('Type /help to list available commands.')
+        self.print_output('DISCORD TERMINAL CLIENT', colorpair = 4)
+        self.print_output('Type /help to list available commands.')
         self.print_info('Welcome to Discord!')
 
     def update(self):
@@ -56,7 +56,7 @@ class DTInterface(object):
         self._output_box.erase()
         self._refresh()
 
-    def print(self, message, newline = True, colorpair=1):
+    def print_output(self, message, newline = True, colorpair=1):
         """Displays a message in the output box."""
         if newline:
             message = message + '\n'
