@@ -1,16 +1,9 @@
 from codecs import open as codecs_open
 from setuptools import setup, find_packages
 
-
-# Get the long description from the relevant file
-with codecs_open('README.rst', encoding='utf-8') as f:
-    long_description = f.read()
-
-
 setup(name='discordt',
       version='0.0.1',
       description=u"Discord Terminal Client",
-      long_description=long_description,
       classifiers=[],
       keywords='',
       author=u"Jose Francisco Taas",
