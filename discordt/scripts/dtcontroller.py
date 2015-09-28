@@ -109,7 +109,7 @@ class DTController(object):
             self.dtclient.send_message(message)
 
     def print_message(self, message):
-        """Displays message from Discord.Message object on output box."""
+        """Displays message from Discord.Message object on the output box."""
         #msg = datetime.now().strftime('%H:%M:%S')
         #msg = message.timestamp.strftime('%H:%M:%S')
         msg = self._convert_tz(message.timestamp).strftime('%H:%M:%S')
@@ -125,6 +125,10 @@ class DTController(object):
         self.dtinterface.print_output(msg, False, self._color_hash(msg))
         msg = ' : ' + message.content
         self.dtinterface.print_output(msg)
+
+    def print_output(self, string, colorpair=1):
+        """Displays a string on the output box"""
+        self.dtinterface.print_output(string, colorpair=1)
 
     def _color_hash(self, key):
         i = 0
