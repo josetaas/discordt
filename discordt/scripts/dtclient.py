@@ -24,6 +24,9 @@ DEALINGS IN THE SOFTWARE.
 import discord
 import threading
 
+def _null_event(*args, **kwargs):
+    pass
+
 ##
 # Handles communication with
 # discord.py wrapper
@@ -39,6 +42,25 @@ class DTClient(object):
         self.textchannels = []
         self.textlogs = {}
         self.user = None
+
+        self.events = {
+            'on_ready': _null_event,
+            'on_disconnect': _null_event,
+            'on_error': _null_event,
+            'on_response': _null_event,
+            'on_message': _null_event,
+            'on_message_delete': _null_event,
+            'on_message_edit': _null_event,
+            'on_status': _null_event,
+            'on_channel_delete': _null_event,
+            'on_channel_create': _null_event,
+            'on_channel_update': _null_event,
+            'on_member_join': _null_event,
+            'on_member_remove': _null_event,
+            'on_member_update': _null_event,
+            'on_server_create': _null_event,
+            'on_server_delete': _null_event,
+        }
 
     def run(self, email, password):
         """Starts Discord client thread."""
@@ -100,10 +122,18 @@ class DTClient(object):
                 self.textlogs[message.channel.id] = []
             self.textlogs[message.channel.id].append(message)
             self.on_message(message)
+            self._invoke_event('on_message', message)
 
         @self._discordClient.event
         def on_ready():
             self.user = self._discordClient.user
             self.on_ready()
+            self._invoke_event('on_ready')
 
         self._discordClient.run()
+
+    def _invoke_event(self, event_name, *args, **kwargs):
+        try:
+            self.events[event_name](*args, **kwargs)
+        except:
+            pass
