@@ -7,3 +7,4 @@ Since Discord has yet to release an official API, anything could break at any po
 ## Installation
 
 Simply clone the repository, then run `pip install . -e` in the repository's directory.
+Afterwards, just run `discordt` to start the client.
