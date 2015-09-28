@@ -37,6 +37,8 @@ class DTClient(object):
         self.on_message = on_message
         self.on_ready = on_ready
 
+        self.discordClient = discord.Client()
+
         self.channel = None
         self.connected = False
         self.textchannels = []
@@ -71,7 +73,7 @@ class DTClient(object):
     def get_channels(self):
         """Returns an array of Discord.Channel."""
         self.textchannels = []
-        for server in self._discordClient.servers:
+        for server in self.discordClient.servers:
             for channel in server.channels:
                 #if not channel.server.name+channel.name in self.textchannels:
                 if channel.type == 'text':
@@ -89,13 +91,13 @@ class DTClient(object):
         else:
             raise Exception
         #if name in self.textchannels:
-        #    self.channel = self._discordClient.get_channel(self.textchannels[name])
+        #    self.channel = self.discordClient.get_channel(self.textchannels[name])
         #else:
         #    raise Exception
 
     def send_message(self, message):
-        #channel = self._discordClient.get_channel(self.channel)
-        t = threading.Thread(target=self._discordClient.send_message,args=(self.channel, message))
+        #channel = self.discordClient.get_channel(self.channel)
+        t = threading.Thread(target=self.discordClient.send_message,args=(self.channel, message))
         t.daemon = True
         t.start()
 
@@ -113,10 +115,9 @@ class DTClient(object):
         return function
 
     def _run(self, email, password):
-        self._discordClient = discord.Client()
-        self._discordClient.login(email, password)
+        self.discordClient.login(email, password)
 
-        @self._discordClient.event
+        @self.discordClient.event
         def on_message(message):
             if message.channel.id not in self.textlogs:
                 self.textlogs[message.channel.id] = []
@@ -124,13 +125,13 @@ class DTClient(object):
             self.on_message(message)
             self._invoke_event('on_message', message)
 
-        @self._discordClient.event
+        @self.discordClient.event
         def on_ready():
-            self.user = self._discordClient.user
+            self.user = self.discordClient.user
             self.on_ready()
             self._invoke_event('on_ready')
 
-        self._discordClient.run()
+        self.discordClient.run()
 
     def _invoke_event(self, event_name, *args, **kwargs):
         try:
