@@ -29,3 +29,15 @@ from .dtcontroller import DTController
 @click.command('discordt')
 def main():
     dtcontroller = DTController()
+
+    # instantaneous message display
+    # set to false if bot will be sending messages
+    dtcontroller.local_message_display = True
+
+    @dtcontroller.dtclient.event
+    def on_message(message):
+        pass
+
+    @dtcontroller.dtclient.event
+    def on_ready(message):
+        pass

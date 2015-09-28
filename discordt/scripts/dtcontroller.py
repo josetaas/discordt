@@ -40,8 +40,8 @@ class DTController(object):
         self.dtclient = DTClient(self.on_message, self.on_ready)
         self.dtinterface = DTInterface(self.on_return_key)
 
-        # Instantaneously display message on enter
-        # Disable if
+        # instantaneous message display
+        # set to false if bot will be sending messages
         self.local_message_display = True
 
         self._unread_channels = {}
