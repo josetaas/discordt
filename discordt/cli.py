@@ -24,11 +24,10 @@ DEALINGS IN THE SOFTWARE.
 import click
 
 import discordt
-from .dtcontroller import DTController
 
 @click.command('discordt')
 def main():
-    dtcontroller = DTController()
+    dtcontroller = discordt.DTController()
 
     # instantaneous message display
     # set to false if bot will be sending messages

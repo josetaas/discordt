@@ -21,8 +21,6 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-from .dtclient import DTClient
-from .dtinterface import DTInterface
 import discordt
 
 import discord
@@ -37,8 +35,8 @@ from dateutil import tz
 class DTController(object):
 
     def __init__(self):
-        self.dtclient = DTClient(self.on_message, self.on_ready)
-        self.dtinterface = DTInterface(self.on_return_key)
+        self.dtclient = discordt.DTClient(self.on_message, self.on_ready)
+        self.dtinterface = discordt.DTInterface(self.on_return_key)
 
         # instantaneous message display
         # set to false if bot will be sending messages

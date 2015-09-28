@@ -1,3 +1,5 @@
-# discordt
+__version__ = '0.0.1'
 
-has_legs = False
+from .dtcontroller import DTController
+from .dtclient import DTClient
+from .dtinterface import DTInterface
